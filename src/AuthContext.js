@@ -12,6 +12,10 @@ export function AuthProvider({ children }) {
         const unsubscribe = onAuthStateChanged(auth, user => {
             setCurrentUser(user);
             setLoading(false);
+            if (user) {
+                // Check if user needs to be redirected
+                window.history.replaceState(null, null, '/');
+            }
         });
 
         return unsubscribe;

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { TextField, Button, Container, Typography } from '@mui/material';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../firebase';
+import GoogleIcon from '@mui/icons-material/Google';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -12,9 +14,18 @@ export default function Login() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
-            alert(error.message);
+            alert(`Login failed: ${error.message}`);
         }
     };
+
+    const handleGoogleLogin = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+        } catch (error) {
+            alert(`Google login failed: ${error.message}`);
+        }
+    };
+
 
     return (
         <Container maxWidth="xs">
@@ -44,6 +55,21 @@ export default function Login() {
                     sx={{ mt: 2 }}
                 >
                     Sign In
+                </Button>
+
+                <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                        mt: 2,
+                        mb: 2,
+                        backgroundColor: '#4285F4',
+                        '&:hover': { backgroundColor: '#357ABD' }
+                    }}
+                    startIcon={<GoogleIcon />}
+                    onClick={handleGoogleLogin}
+                >
+                    Continue with Google
                 </Button>
             </form>
         </Container>
