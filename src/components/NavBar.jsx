@@ -9,6 +9,7 @@ export default function NavBar() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
